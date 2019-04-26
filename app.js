@@ -33,8 +33,6 @@ const blogSchema = new mongoose.Schema({
 
 });
 
-
-
 const Blog = mongoose.model("Blog", blogSchema);
 
 // Blog.create({
@@ -64,20 +62,38 @@ app.get("/blogs", function(req, res){
 //NEW ROUTE
 
 app.get("/blogs/new", function(req, res){
-  const body = req.body.blog;
-
-  Blog.create({body}, function(err, newBlog){
-    if (err){
-      console.log("Error!!!");
-    }else{
-          res.render("new", {newBlog:newBlog});
-    }
-
-  });
+      res.render("new");
 });
 
 
 //CREATE ROUTE
+
+app.post("/blogs", function(req,res){
+
+
+  Blog.create(req.body.blog, function(err, newBlog){
+    if (err){
+   res.render("new");
+    }else{
+       res.redirect("/blogs");
+    }
+  });
+
+
+});
+
+//SHOW ROUTE
+
+app.get("/blogs/:id", function(req, res){
+  Blog.findById(req.params.id, function(err,foundBlog){
+    if(err){
+      res.render("blog");
+    }else{
+        res.render("show", {blogs:foundBlog});
+    }
+  });
+
+});
 
 
 
