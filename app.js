@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const request = require("request");
 const mongoose = require("mongoose");
 const methodOverride =require("method-override");
+const expressSanitizer = require('express-sanitizer');
 
 
 //app configs
@@ -14,7 +15,9 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+app.use(expressSanitizer());
 app.use(methodOverride("_method"));
+
 
 
 //mongoose model/configs
@@ -76,6 +79,8 @@ app.get("/blogs/new", function(req, res){
 
 app.post("/blogs", function(req,res){
 
+  req.body.blog.body = req.sanitize(req.body.blog.body);
+
   Blog.create(req.body.blog, function(err, newBlog){
     if (err){
    res.render("new");
@@ -102,6 +107,8 @@ app.get("/blogs/:id", function(req, res){
 
 //EDIT ROUTE
 app.get("/blogs/:id/edit", function(req, res){
+  // req.body comes from form data
+      // req.body.blog.body = req.sanitize(req.body.blog.body);
   Blog.findById(req.params.id, function(err, foundBlog){
     if(err){
   res.redirect("/blogs");
