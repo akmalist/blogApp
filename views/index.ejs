@@ -1,36 +1,33 @@
 <% include partials/header %>
 
-<div class="ui main text container">
+<div class="ui centered block header">
   <h1>All blogs </h1>
 </div>
-<div class="ui top attached segment">
-  <div class="ui divided items">
-    <% blogs.forEach(function(blog){ %>
-      <div class="item">
-        <div class="image">
-          <img src="<%= blog.image%>">
-        </div>
-
-        <div class="content">
-      <a class="header" href="/blogs/<%=blog._id%>"><%= blog.name%></a>
-      <div class="meta">
-          <span><%= blog.created.toDateString() %></span>
+<div class="ui link cards">
+       <% blogs.forEach(function(blog){ %>
+ <div class="card">
+   <div class="image">
+      <img src="<%= blog.image%>">
+   </div>
+   <div class="content">
+       <a class="header" href="/blogs/<%=blog._id%>"><%= blog.name%></a>
+        <div class="meta">
       </div>
-      <div class="description">
-            <p><%- blog.body.substring(0, 100) %>...</p>
-      </div>
-      <div class="extra">
-              <a class="ui floated basic green button" href="/blogs/<%=blog._id%>"><%= blog.name%>
-                Read More
-                <i class="right external square alternate icon"></i>
-              </a>
-      </div>
-        </div>
-      </div>
+     <div class="description">
+         <p><%- blog.body.substring(0, 300) %>...</p>
+     </div>
+   </div>
+   <div class="extra content">
+     <span class="right floated">
+       <%= blog.created.toDateString() %>
+     </span>
+     <span>
+       <i class="calendar check outline icon"></i>
+          </span>
+   </div>
   </div>
+
+ <% }) %>
 </div>
-
-
-<% }) %>
 
 <% include partials/footer %>
